@@ -1,0 +1,21 @@
+{
+   "description" : "Solve a system of linear equations. Invert a matrix. Nothing else",
+   "version" : "1.0",
+   "keywords" : [
+      "linear",
+      "algebra",
+      "solve",
+      "system",
+      "equations",
+      "invert",
+      "matrix"
+   ],
+   "license" : "MIT",
+   "homepage" : "https://github.com/lovasoa/linear-solve",
+   "repository" : {
+      "url" : "http://github.com/lovasoa/linear-solve.git",
+      "type" : "git"
+   },
+   "name" : "linear-solve",
+   "main" : "./gauss-jordan.js"
+}
