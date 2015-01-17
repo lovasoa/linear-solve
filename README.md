@@ -1,6 +1,6 @@
 # Solve linear systems
 ```javascript
-linear.solve([[ 1, 2],[ 3, 4]], [5, 12]);
+linear.solve([[ 1, 2],[ 3, 4]], [5, 11]);
 // returns [1, 2]
 ```
 
