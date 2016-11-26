@@ -13,8 +13,13 @@ describe('linear', function() {
       assert.deepEqual([[1, -2],
                         [0, 1]],
                       linear.invert([[1, 2],
-                                     [0, 1]]))
+                                     [0, 1]]));
+    });
+    it('should throw with singular matrices', function() {
+      assert.throws(function() {
+        linear.invert([[1,1],[1,1]]);
+      }, /singular/);
     });
   });
-);
+});
 

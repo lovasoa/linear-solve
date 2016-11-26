@@ -76,17 +76,18 @@ Mat.prototype.gauss = function() {
         maxValue = val;
       } 
     }
-    // The value of the pivot is maxValue
-    if (maxValue !== 0) {
-      this.multline(maxLine, 1/maxValue);
-      this.swap(maxLine, pivot);
-      for (var i=0; i<lines; i++) {
-        if (i !== pivot) {
-          this.addmul(i, pivot, -this.data[i][j]);
-        }
-      }
-      pivot++;
+    if (maxValue === 0) {
+      throw new Error("Matrix is singular");
     }
+    // The value of the pivot is maxValue
+    this.multline(maxLine, 1/maxValue);
+    this.swap(maxLine, pivot);
+    for (var i=0; i<lines; i++) {
+      if (i !== pivot) {
+        this.addmul(i, pivot, -this.data[i][j]);
+      }
+    }
+    pivot++;
   }
   return this.mirror.data;
 }
