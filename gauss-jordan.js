@@ -62,10 +62,24 @@ Mat.prototype.addmul = function (i, j, l) {
   }
 }
 
+/**
+ * Tests if line number i is composed only of zeroes
+ */
+Mat.prototype.hasNullLine = function (i) {
+  for (var j=0; j<this.data[i].length; j++) {
+    if (this.data[i][j] !== 0) {
+      return false;
+    }
+  }
+  return true;
+}
+
 Mat.prototype.gauss = function() {
   var pivot = 0,
       lines = this.data.length,
-      columns = this.data[0].length;
+      columns = this.data[0].length,
+      nullLines = [];
+
   for (var j=0; j<columns; j++) {
     // Find the line on which there is the maximum value of column j
     var maxValue = 0, maxLine = 0;
@@ -77,17 +91,26 @@ Mat.prototype.gauss = function() {
       } 
     }
     if (maxValue === 0) {
-      throw new Error("Matrix is singular");
-    }
-    // The value of the pivot is maxValue
-    this.multline(maxLine, 1/maxValue);
-    this.swap(maxLine, pivot);
-    for (var i=0; i<lines; i++) {
-      if (i !== pivot) {
-        this.addmul(i, pivot, -this.data[i][j]);
+      // The matrix is not invertible. The system may still have solutions.
+      nullLines.push(pivot);
+    } else {
+      // The value of the pivot is maxValue
+      this.multline(maxLine, 1/maxValue);
+      this.swap(maxLine, pivot);
+      for (var i=0; i<lines; i++) {
+        if (i !== pivot) {
+          this.addmul(i, pivot, -this.data[i][j]);
+        }
       }
     }
     pivot++;
+  }
+
+  // Check that the system has null lines where it should
+  for (var i=0; i<nullLines.length; i++) {
+    if (!this.mirror.hasNullLine(nullLines[i])) {
+      throw new Error("singular matrix");
+    }
   }
   return this.mirror.data;
 }
@@ -99,9 +122,12 @@ Mat.prototype.gauss = function() {
  * @return x
  */
 exports.solve = function solve(A, b) {
-  return new Mat(A,b).gauss().map(function(a){
-    return (a.length>1) ? a : a[0];
-  });
+  var result = new Mat(A,b).gauss();
+  if (result.length > 0 && result[0].length === 1) {
+    // Convert Nx1 matrices to simple javascript arrays
+    for (var i=0; i<result.length; i++) result[i] = result[i][0];
+  }
+  return result;
 }
 
 function identity(n) {
