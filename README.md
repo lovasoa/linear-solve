@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/lovasoa/linear-solve.svg?branch=master)](https://travis-ci.org/lovasoa/linear-solve)
+
 # Solve linear systems
 ```javascript
 linear.solve([[ 1, 2],[ 3, 4]], [5, 11]);
