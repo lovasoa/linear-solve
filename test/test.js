@@ -48,5 +48,13 @@ describe('linear', function() {
       }, /singular/);
     });
   });
+
+  describe('GH issue #2 regression test', function() {
+    it('should invert a matrix where a column is all <= 0, with 0 in last row', function() {
+      assert.doesNotThrow(function() {
+        linear.invert([ [ -4, 10 ], [ 0, -0.5 ] ])
+      })
+    })
+  })
 });
 

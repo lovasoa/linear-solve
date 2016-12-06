@@ -85,7 +85,7 @@ Mat.prototype.gauss = function() {
     var maxValue = 0, maxLine = 0;
     for (var k=pivot; k<lines; k++) {
       var val = this.data[k][j];
-      if (Math.abs(val) > maxValue) {
+      if (Math.abs(val) > Math.abs(maxValue)) {
         maxLine = k;
         maxValue = val;
       } 
